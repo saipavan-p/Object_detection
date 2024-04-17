@@ -20,5 +20,5 @@ function uploadImage() {
 
 function displayImage(filename) {
   const displayDiv = document.querySelector("#display_image");
-  displayDiv.style.backgroundImage = `url(/display/${filename})`;
+  displayDiv.style.backgroundImage = `url(${filename})`;
 }
