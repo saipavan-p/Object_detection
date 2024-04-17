@@ -1,0 +1,20 @@
+body {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+}
+
+#display_image {
+    width: 375px; 
+    height: 211px; 
+    border: 2px solid black;
+    background-size: contain; 
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+
+#image_input {
+    margin-bottom: 10px; 
+}

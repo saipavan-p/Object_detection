@@ -1,0 +1,12 @@
+ports:
+  - port: 8000  # You can change this port if needed
+
+# Open the browser automatically when the workspace starts (optional)
+tasks:
+  - init: pip install -r requirements.txt
+    command: python main.py 
+  - name: Open app in browser
+    command: |
+      sleep 5  # Wait for the app to start (adjust as needed)
+      open http://localhost:8000
+    
