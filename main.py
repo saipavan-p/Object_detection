@@ -1,27 +1,33 @@
+# main.py (FastAPI backend)
+
 from fastapi import FastAPI, File, UploadFile
-from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
+from starlette.responses import FileResponse
+
 
 app = FastAPI()
 
-upload_dir = Path(__file__).parent / "uploads"  # Define upload directory
-
-# Create the upload directory if it doesn't exist
-upload_dir.mkdir(parents=True, exist_ok=True)
+# Mounting the static files directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@app.post("/upload-image")
-async def upload_image(image: UploadFile = File(...)):
-    # Get the uploaded filename
-    filename = image.filename
+@app.get("/", response_class=HTMLResponse)
+async def read_index():
+    # Read and return the HTML file
+    with open("templates/index.html", "r") as file:
+        return file.read()
 
-    # Create a unique path to save the image
-    filepath = upload_dir / filename
 
-    # Save the uploaded image to the specified location
-    contents = await image.read()
-    with open(filepath, "wb") as f:
-        f.write(contents)
+@app.post("/upload/")
+async def upload_image(file: UploadFile = File(...)):
+    # Save the uploaded image to a specific location
+    with open(f"uploads/{file.filename}", "wb") as f:
+        f.write(await file.read())
+    return {"filename": file.filename}
 
-    # Return a success message (optional)
-    return {"message": f"Image '{filename}' uploaded successfully!"}
 
+@app.get("/display/{filename}")
+async def display_image(filename):
+    # Serve the uploaded image
+    return FileResponse(f"uploads/{filename}")
