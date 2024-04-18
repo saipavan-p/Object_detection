@@ -50,3 +50,6 @@ async def display_image(filename):
     # Serve the processed image
     return FileResponse(filename)
 
+
+#sudo apt install -y libgl1-mesa-glx
+
